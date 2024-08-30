@@ -34,8 +34,11 @@ from six.moves import range
 FLAGS = flags.FLAGS
 
 flags.DEFINE_string('filter', '', 'restrict to matching module names')
-flags.DEFINE_integer('per_train_module', 10, 'Num of examples per train module')
-flags.DEFINE_integer('per_test_module', 10, 'Num of examples per test module')
+flags.DEFINE_integer('per_train_module', int(2e4), 'Num of examples per train module')
+flags.DEFINE_integer('per_easy_train_module', None, 'Num of examples per train module')
+flags.DEFINE_integer('per_medium_train_module', None, 'Num of examples per train module')
+flags.DEFINE_integer('per_hard_train_module', None, 'Num of examples per train module')
+flags.DEFINE_integer('per_test_module', int(1e3), 'Num of examples per test module')
 flags.DEFINE_bool('show_dropped', False, 'Whether to print dropped questions')
 
 
@@ -106,9 +109,9 @@ def init_modules(train_split=False):
   all_modules['extrapolate'] = modules.test_extra()
 
   counts['train'] = FLAGS.per_train_module
-  counts['train-easy'] = FLAGS.per_train_module // 3
-  counts['train-medium'] = FLAGS.per_train_module // 3
-  counts['train-hard'] = FLAGS.per_train_module // 3
+  counts['train-easy'] = FLAGS.per_train_module // 3 if FLAGS.per_easy_train_module is None else FLAGS.per_easy_train_module
+  counts['train-medium'] = FLAGS.per_train_module // 3 if FLAGS.per_medium_train_module is None else FLAGS.per_medium_train_module
+  counts['train-hard'] = FLAGS.per_train_module // 3 if FLAGS.per_hard_train_module is None else FLAGS.per_hard_train_module
   counts['interpolate'] = FLAGS.per_test_module
   counts['extrapolate'] = FLAGS.per_test_module
 
