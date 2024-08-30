@@ -57,13 +57,13 @@ def main(unused_argv):
 
   output_dir = os.path.expanduser(FLAGS.output_dir)
   if os.path.exists(output_dir):
-    logging.fatal('output dir %s already exists', output_dir)
+    logging.info('output dir %s already exists', output_dir)
   logging.info('Writing to %s', output_dir)
-  os.makedirs(output_dir)
+  os.makedirs(output_dir, exist_ok=True)
 
   for regime, flat_modules in six.iteritems(generate.filtered_modules):
     regime_dir = os.path.join(output_dir, regime)
-    os.mkdir(regime_dir)
+    os.mkdir(regime_dir, exist_ok=True)
     per_module = generate.counts[regime]
     for module_name, module in six.iteritems(flat_modules):
       path = os.path.join(regime_dir, module_name + '.txt')
