@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Tests mathematics_dataset.util.combinatorics."""
+"""Tests util.combinatorics."""
 
 from __future__ import absolute_import
 from __future__ import division
@@ -22,7 +22,7 @@ import math
 
 # Dependency imports
 from absl.testing import absltest
-from mathematics_dataset.util import combinatorics
+from util import combinatorics
 
 
 class CombinatoricsTest(absltest.TestCase):

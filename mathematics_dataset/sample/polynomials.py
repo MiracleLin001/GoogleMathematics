@@ -27,10 +27,8 @@ from mathematics_dataset.sample import ops
 from mathematics_dataset.util import combinatorics
 import numpy as np
 import six
-from six.moves import range
-from six.moves import zip
 import sympy
-from sympy.solvers.diophantine import base_solution_linear as diophantine_solve_linear_2d
+from sympy.solvers.diophantine.diophantine import base_solution_linear as diophantine_solve_linear_2d
 
 
 def expanded_coefficient_counts(length, is_zero):
@@ -101,10 +99,10 @@ def integers_with_sum(value, count, entropy):
   # Special cases.
   if count == 0:
     assert value == 0
-    assert entropy == 0
+    assert entropy == 0, f'count={count} value={value} entropy={entropy}'
     return []
   if count == 1:
-    assert entropy == 0
+    assert entropy == 0, f'count={count} value={value} entropy={entropy}'
     return [value]
 
   if not number.is_integer(value):

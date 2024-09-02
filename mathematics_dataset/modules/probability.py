@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Probability questions (sampling, independence, expectations, ...)."""
+"""Probability questions (sampling, independence, expectations, mathematics_dataset.)."""
 
 from __future__ import absolute_import
 from __future__ import division
@@ -31,8 +31,6 @@ from mathematics_dataset.util import composition
 from mathematics_dataset.util import display
 from mathematics_dataset.util import probability
 import numpy as np
-from six.moves import range
-from six.moves import zip
 
 
 _LETTERS = string.ascii_lowercase

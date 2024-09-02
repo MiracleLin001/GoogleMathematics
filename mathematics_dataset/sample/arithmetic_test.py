@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Tests for mathematics_dataset.sample.arithmetic."""
+"""Tests for sample.arithmetic."""
 
 from __future__ import absolute_import
 from __future__ import division
@@ -26,7 +26,7 @@ from absl.testing import parameterized
 from mathematics_dataset.sample import arithmetic
 from mathematics_dataset.sample import number
 from mathematics_dataset.sample import ops
-from six.moves import range
+
 import sympy
 
 

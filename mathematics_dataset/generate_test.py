@@ -23,7 +23,6 @@ from absl.testing import absltest
 from absl.testing import parameterized
 from mathematics_dataset import generate
 import six
-from six.moves import range
 
 
 class GenerateTest(parameterized.TestCase):

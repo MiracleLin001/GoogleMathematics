@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Tests for mathematics_dataset.modules.algebra."""
+"""Tests for modules.algebra."""
 
 from __future__ import absolute_import
 from __future__ import division
@@ -24,7 +24,7 @@ import random
 from absl.testing import absltest
 from mathematics_dataset.modules import algebra
 from mathematics_dataset.sample import polynomials
-from six.moves import range
+
 import sympy
 
 

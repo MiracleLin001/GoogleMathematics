@@ -29,7 +29,6 @@ from mathematics_dataset.sample import ops
 from mathematics_dataset.sample import polynomials
 from mathematics_dataset.util import composition
 import numpy as np
-from six.moves import range
 import sympy
 
 

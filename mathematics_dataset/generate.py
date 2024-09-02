@@ -28,7 +28,6 @@ from absl import logging
 from mathematics_dataset import generate_settings
 from mathematics_dataset.modules import modules
 import six
-from six.moves import range
 
 
 FLAGS = flags.FLAGS
@@ -92,10 +91,20 @@ def _filter_and_flatten(modules_):
   return flat
 
 
-def init_modules(train_split=False):
+def init_modules(train_split = False, per_train_module = None, per_easy_train_module = None, per_medium_train_module = None, per_hard_train_module = None, per_test_module = None):
   """Inits the dicts containing functions for generating modules."""
   if filtered_modules:
     return  # already initialized
+  
+  per_train_module = per_train_module if per_train_module is not None else FLAGS.per_train_module
+  per_easy_train_module = per_easy_train_module if per_easy_train_module is not None else FLAGS.per_easy_train_module
+  per_medium_train_module = per_medium_train_module if per_medium_train_module is not None else FLAGS.per_medium_train_module
+  per_hard_train_module = per_hard_train_module if per_hard_train_module is not None else FLAGS.per_hard_train_module
+  per_test_module = per_test_module if per_test_module is not None else FLAGS.per_test_module
+  
+  per_easy_train_module = per_train_module // 3 if per_easy_train_module is None else per_easy_train_module
+  per_medium_train_module = per_train_module // 3 if per_medium_train_module is None else per_medium_train_module
+  per_hard_train_module = per_train_module // 3 if per_hard_train_module is None else per_hard_train_module
 
   all_modules = collections.OrderedDict([])
   if train_split:
@@ -108,12 +117,12 @@ def init_modules(train_split=False):
   all_modules['interpolate'] = modules.test()
   all_modules['extrapolate'] = modules.test_extra()
 
-  counts['train'] = FLAGS.per_train_module
-  counts['train-easy'] = FLAGS.per_train_module // 3 if FLAGS.per_easy_train_module is None else FLAGS.per_easy_train_module
-  counts['train-medium'] = FLAGS.per_train_module // 3 if FLAGS.per_medium_train_module is None else FLAGS.per_medium_train_module
-  counts['train-hard'] = FLAGS.per_train_module // 3 if FLAGS.per_hard_train_module is None else FLAGS.per_hard_train_module
-  counts['interpolate'] = FLAGS.per_test_module
-  counts['extrapolate'] = FLAGS.per_test_module
+  counts['train'] = per_train_module
+  counts['train-easy'] = per_easy_train_module
+  counts['train-medium'] = per_medium_train_module
+  counts['train-hard'] =  per_hard_train_module
+  counts['interpolate'] = per_test_module
+  counts['extrapolate'] =   per_test_module
 
   for regime_, modules_ in six.iteritems(all_modules):
     filtered_modules[regime_] = _filter_and_flatten(modules_)
@@ -148,13 +157,19 @@ def sample_from_module(module):
     return problem, num_dropped
 
 
-def main(unused_argv):
+def main(return_format = 'stdout', per_train_module = None, per_easy_train_module = None, per_medium_train_module = None, per_hard_train_module = None, per_test_module = None):
   """Prints Q&As from modules according to FLAGS.filter."""
-  init_modules()
+  init_modules(
+    per_train_module=per_train_module,
+    per_easy_train_module=per_easy_train_module,
+    per_medium_train_module=per_medium_train_module,
+    per_hard_train_module=per_hard_train_module,
+    per_test_module=per_test_module
+  )
 
   text_wrapper = textwrap.TextWrapper(
       width=80, initial_indent=' ', subsequent_indent='  ')
-
+  dataset_dict = {}
   for regime, flat_modules in six.iteritems(filtered_modules):
     per_module = counts[regime]
     for module_name, module in six.iteritems(flat_modules):
@@ -164,12 +179,23 @@ def main(unused_argv):
       for _ in range(per_module):
         problem, extra_dropped = sample_from_module(module)
         num_dropped += extra_dropped
-        text = text_wrapper.fill(
-            '{}  \033[92m{}\033[0m'.format(problem.question, problem.answer))
-        print(text)
+        if return_format == 'dict':
+          dataset_dict.update(
+            {
+              'question': str(problem.question),
+              'answer': str(problem.answer)
+            }
+          )
+        elif return_format == 'stdout':
+          text = text_wrapper.fill(
+              '{}  \033[92m{}\033[0m'.format(problem.question, problem.answer))
+          print(text)
       if num_dropped > 0:
         logging.warning('Dropped %d examples', num_dropped)
-
+  if return_format == 'dict':
+    return dataset_dict
 
 if __name__ == '__main__':
+  import sys
+  FLAGS(sys.argv)
   app.run(main)

@@ -28,7 +28,6 @@ from mathematics_dataset.sample import ops
 from mathematics_dataset.util import combinatorics
 import numpy as np
 import six
-from six.moves import zip
 import sympy
 
 

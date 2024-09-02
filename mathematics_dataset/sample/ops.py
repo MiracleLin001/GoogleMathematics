@@ -37,7 +37,6 @@ from mathematics_dataset.sample import number
 from mathematics_dataset.util import display
 import numpy as np
 import six
-from six.moves import zip
 import sympy
 
 

@@ -29,7 +29,7 @@ from mathematics_dataset.util import composition
 from mathematics_dataset.util import display
 import numpy as np
 import six
-from six.moves import range
+
 import sympy
 
 

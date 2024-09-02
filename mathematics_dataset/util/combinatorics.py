@@ -22,8 +22,7 @@ import math
 import random
 
 # Dependency imports
-from six.moves import range
-from six.moves import zip
+
 
 
 def uniform_positive_integers_with_sum(count, sum_):

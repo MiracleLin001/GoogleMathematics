@@ -39,7 +39,6 @@ import itertools
 
 # Dependency imports
 import six
-from six.moves import zip
 import sympy
 
 

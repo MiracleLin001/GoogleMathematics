@@ -28,7 +28,7 @@ from mathematics_dataset.sample import ops
 from mathematics_dataset.util import composition
 from mathematics_dataset.util import display
 import numpy as np
-from six.moves import range
+
 import sympy
 
 

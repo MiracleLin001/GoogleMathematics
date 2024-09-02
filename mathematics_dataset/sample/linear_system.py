@@ -25,7 +25,7 @@ from mathematics_dataset.sample import number
 from mathematics_dataset.sample import ops
 from mathematics_dataset.sample import polynomials
 import numpy as np
-from six.moves import range
+
 import sympy
 
 

@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Tests for mathematics_dataset.sample.ops."""
+"""Tests for sample.ops."""
 
 from __future__ import absolute_import
 from __future__ import division
@@ -21,7 +21,7 @@ from __future__ import print_function
 # Dependency imports
 from absl.testing import absltest
 from mathematics_dataset.sample import ops
-from six.moves import range
+
 import sympy
 
 
