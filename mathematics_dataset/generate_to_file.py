@@ -60,16 +60,14 @@ def main(save_format = 'json'):
     logging.info('output dir %s already exists', output_dir)
   logging.info('Writing to %s', output_dir)
   os.makedirs(output_dir, exist_ok=True)
-
-  dataset_list = []
-  
   for regime, flat_modules in six.iteritems(generate.filtered_modules):
     regime_dir = os.path.join(output_dir, regime)
     os.makedirs(regime_dir, exist_ok=True)
     per_module = generate.counts[regime]
     print(per_module)
     for module_name, module in six.iteritems(flat_modules):
-      print(module_name)
+      dataset_list = []
+      print(module_name,module)
       if save_format == 'json':
         path = os.path.join(regime_dir, module_name + '.json')
         for k in range(per_module):
@@ -80,6 +78,7 @@ def main(save_format = 'json'):
               'answer': str(problem.answer)
             }
           )
+          # print(problem.question)
         with open(path, 'w', encoding= 'utf-8') as text_file:
           json.dump(dataset_list, text_file, indent=4, )
       elif save_format == 'jsonl':
@@ -87,13 +86,11 @@ def main(save_format = 'json'):
         with open(path, 'w', encoding= 'utf-8') as text_file:
           for _ in range(per_module):
             problem, _ = generate.sample_from_module(module)
-            dataset_dict.update(
-              {
+            data_item = {
                 'question': str(problem.question),
                 'answer': str(problem.answer)
               }
-            )
-            json.dump(dataset_dict, text_file)
+            json.dump(data_item, text_file)
             text_file.write('\n')
       elif save_format == 'txt':
         path = os.path.join(regime_dir, module_name + '.txt')
